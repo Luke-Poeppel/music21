@@ -206,6 +206,13 @@ class Spanner(base.Music21Object):
     >>> sp1.completeStatus = True
     '''
 
+    isSlur = False
+    isMultiMeasureRest = False
+    isRepeatBracket = False
+    isOttava = False
+    isLine = False
+    isGlissando = False
+
     def __init__(self, *arguments, **keywords):
         super().__init__()
 
@@ -1092,7 +1099,7 @@ class Slur(Spanner):
 
     Slurs have `.placement` options ('above' or 'below') and `.lineType` ('dashed' or None)
     '''
-
+    isSlur = True
     def __init__(self, *arguments, **keywords):
         super().__init__(*arguments, **keywords)
         self.placement = None  # can above or below, after musicxml
@@ -1127,6 +1134,8 @@ class MultiMeasureRest(Spanner):
                                      change globally.
                                      '''
                  }
+
+    isMultiMeasureRest = True
 
     def __init__(self, *arguments, **keywords):
         super().__init__(*arguments, **keywords)
@@ -1221,9 +1230,8 @@ class RepeatBracket(Spanner):
     >>> sp.number
     '1, 2, 3, 7'
     >>> sp.overrideDisplay = '1-3, 7'  # does not work for number.
-
-
     '''
+    isRepeatBracket = True
 
     def __init__(self, *arguments, **keywords):
         super().__init__(*arguments, **keywords)
@@ -1398,6 +1406,7 @@ class Ottava(Spanner):
     >>> ottava.validOttavaTypes
     ('8va', '8vb', '15ma', '15mb', '22da', '22db')
     '''
+    isOttava = True
     validOttavaTypes = ('8va', '8vb', '15ma', '15mb', '22da', '22db')
 
     def __init__(self, *arguments, **keywords):
@@ -1593,8 +1602,8 @@ class Line(Spanner):
     >>> b = spanner.Line(endHeight=20)
     >>> b.endHeight
     20
-
     '''
+    isLine = True
     validLineTypes = ('solid', 'dashed', 'dotted', 'wavy')
     validTickTypes = ('up', 'down', 'arrow', 'both', 'none')
 
@@ -1746,6 +1755,7 @@ class Glissando(Spanner):
 
     Note -- not a Line subclass for now, but that might change.
     '''
+    isGlissando = True
     validLineTypes = ('solid', 'dashed', 'dotted', 'wavy')
     validSlideTypes = ('chromatic', 'continuous', 'diatonic', 'white', 'black')
 
